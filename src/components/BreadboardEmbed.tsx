@@ -1,7 +1,22 @@
-export type BreadboardEmbedProps = {
-	url: string;
+import { createComponent } from "@lit/react";
+import React from "react";
+import { Embed } from "@google-labs/breadboard-web/embed.js";
+
+const BreadboardEmbed = (): React.JSX.Element => {
+	const LitReactEmbed = createComponent({
+		tagName: "bb-embed",
+		elementClass: Embed,
+		react: React,
+		events: {},
+	});
+
+	return (
+		<LitReactEmbed
+			//style={{ backgroundImage: `url(${background})`, marginTop: "3em" }}
+			url="/graphs/blank.json"
+		/>
+	);
 };
-export function BreadboardEmbed({ url }: BreadboardEmbedProps) {
-	return <div >{url}</div>;
-};
+
+//get react-error-boundary
 export default BreadboardEmbed;
