@@ -44,6 +44,7 @@
 		"dev": "vite --open",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"prepack": "npm run build",
+		"prepublishOnly": "git push --follow-tags",
 		"preview": "vite preview --open"
 	},
 	"type": "module",
