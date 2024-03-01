@@ -11,11 +11,7 @@ const BreadboardInputView = (): React.JSX.Element => {
 			},
 		},
 	} as Schema;
-	return (
-		<div className="card">
-			<InputForm schema={schema} />
-		</div>
-	);
+	return <InputForm schema={schema} />;
 };
 
 export default BreadboardInputView;

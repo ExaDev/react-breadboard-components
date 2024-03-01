@@ -1,6 +1,7 @@
 import { createComponent } from "@lit/react";
 import React from "react";
 import { Embed } from "@google-labs/breadboard-web/embed.js";
+import background from "/images/pattern.png";
 
 const BreadboardEmbed = (): React.JSX.Element => {
 	const LitReactEmbed = createComponent({
@@ -12,7 +13,7 @@ const BreadboardEmbed = (): React.JSX.Element => {
 
 	return (
 		<LitReactEmbed
-			//style={{ backgroundImage: `url(${background})`, marginTop: "3em" }}
+			style={{ backgroundImage: `url(${background})`, marginTop: "3em" }}
 			url="/graphs/blank.json"
 		/>
 	);
