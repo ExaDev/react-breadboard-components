@@ -1,5 +1,5 @@
 import { Schema } from "@google-labs/breadboard";
-import InputForm from "src/components/BreadboardInputForm";
+import { BreadboardInputForm } from "src/components";
 
 const BreadboardInputView = (): React.JSX.Element => {
 	const schema = {
@@ -11,7 +11,7 @@ const BreadboardInputView = (): React.JSX.Element => {
 			},
 		},
 	} as Schema;
-	return <InputForm schema={schema} />;
+	return <BreadboardInputForm schema={schema} />;
 };
 
 export default BreadboardInputView;

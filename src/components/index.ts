@@ -1,6 +1,8 @@
 // export * from "./BreadboardEmbed";
 import BreadboardEmbed from "./BreadboardEmbed";
+import BreadboardInputForm from "./BreadboardInputForm";
+import BreadboardToast from "./BreadboardToast";
 
-export default {
-	BreadboardEmbed,
+export {
+	BreadboardEmbed, BreadboardInputForm, BreadboardToast
 };

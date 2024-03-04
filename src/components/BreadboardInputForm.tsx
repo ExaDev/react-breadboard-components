@@ -5,7 +5,10 @@ import { handleError } from "../lib/errors";
 
 type InputFormProps = Types.InputArgs & Types.BreadboardReactComponentProps;
 
-const InputForm = ({ schema, onError }: InputFormProps): React.JSX.Element => {
+const BreadboardInputForm = ({
+	schema,
+	onError,
+}: InputFormProps): React.JSX.Element => {
 	const LitReactInput = createComponent({
 		tagName: "bb-input",
 		elementClass: Elements.Input,
@@ -22,4 +25,4 @@ const InputForm = ({ schema, onError }: InputFormProps): React.JSX.Element => {
 	);
 };
 
-export default InputForm;
+export default BreadboardInputForm;
