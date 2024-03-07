@@ -1,8 +1,8 @@
-import { Types } from "@google-labs/breadboard-ui";
+import { BreadboardElementError, BreadboardErrorHandler } from "./types";
 
-export const handleError = (onError?: Types.BreadboardErrorHandler) => (error: Types.BreadboardElementError) => { 
-    if (onError) {
-      return onError(error);
-    }
-    console.error(`There was an error.`, error);
-  };
+export const handleError = (onError?: BreadboardErrorHandler) => (e: Event) => {
+	if (onError) {
+		return onError(e as BreadboardElementError);
+	}
+	console.error(`There was an error.`, e);
+};

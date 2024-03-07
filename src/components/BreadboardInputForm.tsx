@@ -1,4 +1,4 @@
-import { Types, Elements } from "@google-labs/breadboard-ui";
+import { Types, Elements, Events } from "@google-labs/breadboard-ui";
 import { createComponent } from "@lit/react";
 import React from "react";
 import { handleError } from "../lib/errors";
@@ -13,6 +13,9 @@ const BreadboardInputForm = ({
 		tagName: "bb-input",
 		elementClass: Elements.Input,
 		react: React,
+		events: {
+			onError: Events.InputErrorEvent.eventName,
+		},
 	});
 
 	return (
