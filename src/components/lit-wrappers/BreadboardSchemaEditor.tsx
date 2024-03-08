@@ -1,7 +1,6 @@
 import { Types, Elements } from "@google-labs/breadboard-ui";
 import { createComponent } from "@lit/react";
 import React, { useState } from "react";
-import { handleError } from "../lib/errors";
 
 type BreadboardSchemaEditorProps = Types.InputArgs &
 	Types.BreadboardReactComponentProps & {
