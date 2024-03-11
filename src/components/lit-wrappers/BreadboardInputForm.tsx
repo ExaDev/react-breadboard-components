@@ -1,10 +1,11 @@
 import { Types, Elements, Events } from "@google-labs/breadboard-ui";
 import { createComponent } from "@lit/react";
-import React, { useRef } from "react";
+import React from "react";
 import { handleError } from "src/lib/errors";
+import { BreadboardReactComponentProps } from "src/lib/types";
 
 type InputFormProps = Types.InputArgs &
-	Types.BreadboardReactComponentProps & {
+	BreadboardReactComponentProps & {
 		secret?: boolean;
 		remember?: boolean;
 		onSubmit?: (event: Events.InputEnterEvent) => void;

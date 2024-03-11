@@ -1,9 +1,10 @@
 import { Types, Elements } from "@google-labs/breadboard-ui";
 import { createComponent } from "@lit/react";
 import React, { useState } from "react";
+import { BreadboardReactComponentProps } from "src/lib/types";
 
 type BreadboardSchemaEditorProps = Types.InputArgs &
-	Types.BreadboardReactComponentProps & {
+	BreadboardReactComponentProps & {
 		editable?: boolean;
 	};
 

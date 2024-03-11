@@ -1,15 +1,7 @@
-import {
-	InputValues,
-	Kit,
-	NodeStartResponse,
-	Schema,
-	StreamCapabilityType,
-	asRuntimeKit,
-	clone,
-} from "@google-labs/breadboard";
+import { InputValues, Schema } from "@google-labs/breadboard";
 import "./BbPreviewRun.css";
-import { ChunkOutputs, JSONObject } from "src/lib/types";
-import JsonTreeWrapper from "../lit-wrappers/JsonTreeWrapper";
+import { JSONObject } from "src/lib/types";
+import JsonTreeWrapper from "../lit-wrappers/BreadboardJsonTree";
 import { HarnessRunResult, run } from "@google-labs/breadboard/harness";
 import BreadboardInputForm from "../lit-wrappers/BreadboardInputForm";
 import { useEffect, useState } from "react";
@@ -42,37 +34,15 @@ const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
 		return (
 			<>
 				{Object.entries(schema.properties).map(([property, schema]) => {
-					const value = output[property];
-					let valueTmpl;
-					if (schema.format === "stream") {
-						let value = "";
-						const streamedValue = clone(
-							output[property] as unknown as StreamCapabilityType
-						)
-							.pipeTo(
-								new WritableStream({
-									write(chunk) {
-										const outputs = chunk as ChunkOutputs;
-										value += outputs.chunk;
-									},
-								})
-							)
-							.then(() => value);
-					} else {
-						valueTmpl =
-							typeof value === "object" ? (
-								<JsonTreeWrapper json={value as JSONObject} />
-							) : (
-								value
-							);
-					}
+					const value = output[property] as string;
 
 					return (
 						<>
 							<section className="output-item">
-								<h1 title={schema.description || "Undescribed property"}>
+								<h1 title={schema.title || "Undescribed property"}>
 									{schema.title || "Untitled property"}
 								</h1>
+								<div>{value || "No value"}</div>
 							</section>
 							<section>{uiElement}</section>
 						</>
@@ -155,20 +125,21 @@ const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
 				setUiElement(renderOutput(result.data.outputs));
 				return Promise.resolve(void 0);
 		}
+		setShowContinueButton(false);
 	};
 
-	const continueButton = showContinueButton ? (
+	/* const continueButton = showContinueButton ? (
 		<button className="continue" onClick={() => console.log("submitted")}>
 			Continue
 		</button>
-	) : null;
+	) : null; */
 
 	return (
 		<>
 			<h1>Test</h1>
 			<section>
 				{uiElement}
-				{continueButton}
+				{/*continueButton*/}
 			</section>
 			<footer>Made with Breadboard</footer>
 		</>
