@@ -9,6 +9,7 @@
   }
   
   html {
+	--bb-accent-color: #6b5484;
 	--bb-grid-size: 4px;
 	--bb-font-family-header: "Fira Code";
 	--bb-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

@@ -23,7 +23,7 @@
 	flex-direction: column;
   }
 
-  #continue {
+  .continue {
 	border-radius: 32px;
 	background: var(--bb-accent-color);
 	border: none;

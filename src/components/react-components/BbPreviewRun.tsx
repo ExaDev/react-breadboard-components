@@ -4,37 +4,94 @@ import {
 	NodeStartResponse,
 	Schema,
 	StreamCapabilityType,
+	asRuntimeKit,
 	clone,
 } from "@google-labs/breadboard";
 import "./BbPreviewRun.css";
-import BbJsonTree from "./BbJsonTree";
 import { ChunkOutputs, JSONObject } from "src/lib/types";
 import JsonTreeWrapper from "../lit-wrappers/JsonTreeWrapper";
 import { HarnessRunResult, run } from "@google-labs/breadboard/harness";
-import { getBoardInfo } from "node_modules/@google-labs/breadboard-web/build/preview-run";
-import { BreadboardInputForm } from "..";
+import BreadboardInputForm from "../lit-wrappers/BreadboardInputForm";
+import { useEffect, useState } from "react";
+import { JSX } from "react/jsx-runtime";
+import { Events } from "@google-labs/breadboard-ui";
+import useBreadboardKits from "src/hooks/use-breadboard-kits";
+import runBoard from "src/hooks/run-board";
 
 type BbPreviewRunProps = {
-	output: JSONObject;
+	boardUrl: string;
 };
 
-const BbPreviewRun = ({ output }: BbPreviewRunProps): React.JSX.Element => {
+const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
+	const kits = useBreadboardKits();
+	const [uiElement, setUiElement] = useState<React.ReactNode>();
+	const [showContinueButton, setShowContinueButton] = useState(false);
+
+	useEffect(() => {
+		if (boardUrl) {
+			runBoard(boardUrl, kits, handleStateChange);
+		}
+	}, []);
+
+	const renderOutput = (output: Record<string, unknown>) => {
+		const schema = output.schema as Schema;
+		if (!schema || !schema.properties) {
+			return <JsonTreeWrapper json={output as JSONObject} />;
+		}
+
+		return (
+			<>
+				{Object.entries(schema.properties).map(([property, schema]) => {
+					const value = output[property];
+					let valueTmpl;
+					if (schema.format === "stream") {
+						let value = "";
+						const streamedValue = clone(
+							output[property] as unknown as StreamCapabilityType
+						)
+							.pipeTo(
+								new WritableStream({
+									write(chunk) {
+										const outputs = chunk as ChunkOutputs;
+										value += outputs.chunk;
+									},
+								})
+							)
+							.then(() => value);
+					} else {
+						valueTmpl =
+							typeof value === "object" ? (
+								<JsonTreeWrapper json={value as JSONObject} />
+							) : (
+								value
+							);
+					}
+
+					return (
+						<>
+							<section className="output-item">
+								<h1 title={schema.description || "Undescribed property"}>
+									{schema.title || "Untitled property"}
+								</h1>
+							</section>
+							<section>{uiElement}</section>
+						</>
+					);
+				})}
+			</>
+		);
+	};
+
 	const handleStateChange = async (
 		result: HarnessRunResult
 	): Promise<void | InputValues> => {
-		let uiElement;
-		let showContinueButton = false;
 		switch (result.type) {
 			case "secret": {
-				showContinueButton = true;
+				setShowContinueButton(true);
 
-				// Set up a placeholder for the secrets.
-				const secrets = [];
-				uiElement = "secrets";
+				const secrets: React.ReactNode[] = [];
+				setUiElement(secrets);
 
-				// By setting the uiElement above we have requested a render, but before
-				// that we step through each secret and create inputs. We await each
-				// input that we create here.
 				const values = await Promise.all(
 					result.data.keys.map((key) => {
 						return new Promise<[string, string]>((secretResolve) => {
@@ -63,27 +120,29 @@ const BbPreviewRun = ({ output }: BbPreviewRunProps): React.JSX.Element => {
 					})
 				);
 
-				// Once all the secrets are resolved we can remove the UI element and
-				// return the secrets.
-				uiElement = null;
-
+				setUiElement(null);
 				return Object.fromEntries(values);
 			}
 
 			case "input":
-				showContinueButton = true;
-
+				setShowContinueButton(true);
 				return new Promise((resolve) => {
-					uiElement = (
-						<BreadboardInputForm schema={result.data.inputArguments.schema} />
+					setUiElement(
+						<BreadboardInputForm
+							schema={result.data.inputArguments.schema}
+							onSubmit={(event: Events.InputEnterEvent) => {
+								setUiElement(null);
+								resolve(event.data as InputValues);
+							}}
+						/>
 					);
 				});
 
 			case "error":
 				if (typeof result.data.error === "string") {
-					uiElement = <div className="error">😩 ${result.data.error}</div>;
+					setUiElement(<div className="error">😩 ${result.data.error}</div>);
 				} else {
-					uiElement = (
+					setUiElement(
 						<div className="error">
 							😩 Error
 							<JsonTreeWrapper json={result.data.error.error as JSONObject} />
@@ -91,75 +150,29 @@ const BbPreviewRun = ({ output }: BbPreviewRunProps): React.JSX.Element => {
 					);
 				}
 				return Promise.resolve(void 0);
+
+			case "output":
+				setUiElement(renderOutput(result.data.outputs));
+				return Promise.resolve(void 0);
 		}
 	};
 
-	const runBoard = async (url: string, kits: Kit[]) => {
-		const nodesVisited: Array<{ data: NodeStartResponse }> = [];
-		nodesVisited.length = 0;
+	const continueButton = showContinueButton ? (
+		<button className="continue" onClick={() => console.log("submitted")}>
+			Continue
+		</button>
+	) : null;
 
-		const config = { url, kits: kits, diagnostics: true };
-
-		const boardInfo = await getBoardInfo(url);
-
-		for await (const result of run(config)) {
-			const answer = await handleStateChange(result);
-
-			if (answer) {
-				await result.reply({ inputs: answer });
-			}
-		}
-	};
-
-	const generateComponent = () => {
-		const schema = output.schema as Schema;
-		if (!schema || !schema.properties) {
-			return <JsonTreeWrapper json={output}></JsonTreeWrapper>;
-		}
-
-		return (
-			<>
-				{Object.entries(schema.properties).map(([property, schema]) => {
-					const value = output[property];
-					let valueTmpl;
-					if (schema.format === "stream") {
-						let value = "";
-						const streamedValue = clone(
-							output[property] as unknown as StreamCapabilityType
-						)
-							.pipeTo(
-								new WritableStream({
-									write(chunk) {
-										// For now, presume that the chunk is an `OutputValues` object
-										// and the relevant item is keyed as `chunk`.
-										const outputs = chunk as ChunkOutputs;
-										value += outputs.chunk;
-									},
-								})
-							)
-							.then(() => value);
-					} else {
-						valueTmpl =
-							typeof value === "object" ? (
-								<BbJsonTree json={value as JSONObject}></BbJsonTree>
-							) : (
-								value
-							);
-					}
-
-					return (
-						<section className="output-item">
-							<h1 title={schema.description || "Undescribed property"}>
-								{schema.title || "Untitled property"}
-							</h1>
-						</section>
-					);
-				})}
-			</>
-		);
-	};
-
-	return <>{generateComponent()}</>;
+	return (
+		<>
+			<h1>Test</h1>
+			<section>
+				{uiElement}
+				{continueButton}
+			</section>
+			<footer>Made with Breadboard</footer>
+		</>
+	);
 };
 
 export default BbPreviewRun;

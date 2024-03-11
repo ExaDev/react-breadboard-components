@@ -1,6 +1,5 @@
 import { JSONObject } from "src/lib/types";
-import "./BbJsonTree.css";
-import { useCreatePreview, useFormatValue } from "src/hooks/hooks";
+import { useCreatePreview, useFormatValue } from "src/hooks/breadboard-hooks";
 
 type BbJsonTreeProps = {
 	json: JSONObject;

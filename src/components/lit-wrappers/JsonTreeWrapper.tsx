@@ -1,4 +1,4 @@
-import { Types, Elements, Events } from "@google-labs/breadboard-ui";
+import { Elements } from "@google-labs/breadboard-ui";
 import { createComponent } from "@lit/react";
 import React from "react";
 import { JSONObject } from "src/lib/types";

@@ -1,12 +1,13 @@
 import { Types, Elements, Events } from "@google-labs/breadboard-ui";
 import { createComponent } from "@lit/react";
-import React from "react";
+import React, { useRef } from "react";
 import { handleError } from "src/lib/errors";
 
 type InputFormProps = Types.InputArgs &
 	Types.BreadboardReactComponentProps & {
 		secret?: boolean;
 		remember?: boolean;
+		onSubmit?: (event: Events.InputEnterEvent) => void;
 	};
 
 const BreadboardInputForm = ({
@@ -14,6 +15,7 @@ const BreadboardInputForm = ({
 	onError,
 	secret,
 	remember,
+	onSubmit,
 }: InputFormProps): React.JSX.Element => {
 	const LitReactInput = createComponent({
 		tagName: "bb-input",
@@ -21,6 +23,7 @@ const BreadboardInputForm = ({
 		react: React,
 		events: {
 			onError: Events.InputErrorEvent.eventName,
+			onSubmit: Events.InputEnterEvent.eventName,
 		},
 	});
 
@@ -31,6 +34,7 @@ const BreadboardInputForm = ({
 				secret={secret}
 				remember={remember}
 				configuration={{ schema: schema }}
+				onSubmit={onSubmit}
 			/>
 		</>
 	);
