@@ -1,11 +1,11 @@
+import BbPreviewRun from "src/components/react-components/BbPreviewRun";
 import "./App.css";
-import BreadboardUIController from "./components/react-components/BreadboardUIController";
 
 function App() {
 	return (
 		<>
 			<div className="card">
-				<BreadboardUIController />
+				<BbPreviewRun boardUrl="/graphs/course-crafter-single.json" />
 			</div>
 		</>
 	);

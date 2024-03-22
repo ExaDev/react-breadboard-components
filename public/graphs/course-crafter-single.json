@@ -1,0 +1,179 @@
+{
+	"title": "CourseCrafter Single",
+	"description": "CourseCrafter for a single URL.",
+	"edges": [
+		{
+			"from": "claudeAPI",
+			"to": "output-2",
+			"out": "completion",
+			"in": "completion"
+		},
+		{
+			"from": "readEnvVar-3",
+			"to": "claudeAPI",
+			"out": "apiKey",
+			"in": "apiKey"
+		},
+		{
+			"from": "claudePromptConstructor",
+			"to": "claudeAPI",
+			"out": "string",
+			"in": "text"
+		},
+		{
+			"from": "promptDetails",
+			"to": "claudePromptConstructor",
+			"out": "template",
+			"in": "template"
+		},
+		{
+			"from": "getBlogContents",
+			"to": "summaryLanguageModel",
+			"out": "blogContent",
+			"in": "input"
+		},
+		{
+			"from": "getBlogContents",
+			"to": "claudePromptConstructor",
+			"out": "blogContent",
+			"in": "blogContent"
+		},
+		{
+			"from": "summaryLanguageModel",
+			"to": "claudePromptConstructor",
+			"out": "output",
+			"in": "summary"
+		},
+		{
+			"from": "blogDetails",
+			"to": "getBlogContents",
+			"out": "url",
+			"in": "url"
+		},
+		{
+			"from": "taskDetails",
+			"to": "summaryLanguageModel",
+			"out": "model",
+			"in": "model"
+		},
+		{
+			"from": "taskDetails",
+			"to": "summaryLanguageModel",
+			"out": "task",
+			"in": "task"
+		},
+		{
+			"from": "taskDetails",
+			"to": "getBlogContents",
+			"out": "model",
+			"in": "model"
+		},
+		{
+			"from": "taskDetails",
+			"to": "getBlogContents",
+			"out": "task",
+			"in": "task"
+		}
+	],
+	"nodes": [
+		{
+			"id": "output-2",
+			"type": "output",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"completion": {
+							"type": "string",
+							"title": "completion"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "claudeAPI",
+			"type": "generateCompletion",
+			"configuration": {
+				"model": "claude-2",
+				"url": "https://api.anthropic.com/v1/complete"
+			}
+		},
+		{
+			"id": "readEnvVar-3",
+			"type": "readEnvVar",
+			"configuration": {
+				"key": "CLAUDE_API_KEY"
+			}
+		},
+		{
+			"id": "claudePromptConstructor",
+			"type": "template",
+			"configuration": {}
+		},
+		{
+			"id": "promptDetails",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"template": {
+							"type": "string",
+							"title": "Text",
+							"description": "urls"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "getBlogContents",
+			"type": "getBlogContentForTask",
+			"configuration": {}
+		},
+		{
+			"id": "summaryLanguageModel",
+			"type": "pipeline",
+			"configuration": {}
+		},
+		{
+			"id": "blogDetails",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"title": "Text",
+							"description": "urls"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "taskDetails",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"model": {
+							"type": "string",
+							"title": "Text",
+							"description": "model"
+						},
+						"task": {
+							"type": "string",
+							"title": "Text",
+							"description": "task"
+						}
+					}
+				}
+			}
+		}
+	],
+	"graphs": {}
+}

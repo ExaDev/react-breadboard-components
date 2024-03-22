@@ -1,101 +1,44 @@
-import { InputValues, Schema } from "@google-labs/breadboard";
+import { InputValues } from "@google-labs/breadboard";
 import "./BbPreviewRun.css";
-import { JSONObject } from "src/lib/types";
-import JsonTreeWrapper from "../lit-wrappers/BreadboardJsonTree";
-import { HarnessRunResult, run } from "@google-labs/breadboard/harness";
+import { HarnessRunResult } from "@google-labs/breadboard/harness";
 import BreadboardInputForm from "../lit-wrappers/BreadboardInputForm";
 import { useEffect, useState } from "react";
-import { JSX } from "react/jsx-runtime";
 import { Events } from "@google-labs/breadboard-ui";
 import useBreadboardKits from "src/hooks/use-breadboard-kits";
 import runBoard from "src/hooks/run-board";
+import Core from "@google-labs/core-kit";
+import JSONKit from "@google-labs/json-kit";
+import TemplateKit from "@google-labs/template-kit";
+import PaLMKit from "@google-labs/palm-kit";
+import GeminiKit from "@google-labs/gemini-kit";
+import AgentKit from "@google-labs/agent-kit";
+import BreadboardOutput from "src/components/react-components/BreadboardOutput";
+import BreadboardError from "src/components/react-components/BreadboardError";
+import BreadboardSecretInput from "src/components/react-components/BreadboardSecretInput";
 
 type BbPreviewRunProps = {
 	boardUrl: string;
 };
 
+const kitsArray = [Core, JSONKit, TemplateKit, PaLMKit, GeminiKit, AgentKit];
+
 const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
-	const kits = useBreadboardKits();
+	const kits = useBreadboardKits(kitsArray);
 	const [uiElement, setUiElement] = useState<React.ReactNode>();
-	const [showContinueButton, setShowContinueButton] = useState(false);
-
-	useEffect(() => {
-		if (boardUrl) {
-			runBoard(boardUrl, kits, handleStateChange);
-		}
-	}, []);
-
-	const renderOutput = (output: Record<string, unknown>) => {
-		const schema = output.schema as Schema;
-		if (!schema || !schema.properties) {
-			return <JsonTreeWrapper json={output as JSONObject} />;
-		}
-
-		return (
-			<>
-				{Object.entries(schema.properties).map(([property, schema]) => {
-					const value = output[property] as string;
-
-					return (
-						<>
-							<section className="output-item">
-								<h1 title={schema.title || "Undescribed property"}>
-									{schema.title || "Untitled property"}
-								</h1>
-								<div>{value || "No value"}</div>
-							</section>
-							<section>{uiElement}</section>
-						</>
-					);
-				})}
-			</>
-		);
-	};
+	//const [showContinueButton, setShowContinueButton] = useState(false);
 
 	const handleStateChange = async (
 		result: HarnessRunResult
 	): Promise<void | InputValues> => {
 		switch (result.type) {
 			case "secret": {
-				setShowContinueButton(true);
-
-				const secrets: React.ReactNode[] = [];
-				setUiElement(secrets);
-
-				const values = await Promise.all(
-					result.data.keys.map((key) => {
-						return new Promise<[string, string]>((secretResolve) => {
-							const id = key;
-							const configuration = {
-								schema: {
-									properties: {
-										secret: {
-											title: id,
-											description: `Enter ${id}`,
-											type: "string",
-										},
-									},
-								},
-							};
-
-							const secret = (
-								<BreadboardInputForm
-									secret={true}
-									remember={true}
-									schema={configuration.schema}
-								/>
-							);
-							secrets.push(secret);
-						});
-					})
-				);
-
-				setUiElement(null);
-				return Object.fromEntries(values);
+				//setShowContinueButton(true);
+				setUiElement(<BreadboardSecretInput result={result} />)
+				return Promise.resolve(void 0)
 			}
 
 			case "input":
-				setShowContinueButton(true);
+				//setShowContinueButton(true);
 				return new Promise((resolve) => {
 					setUiElement(
 						<BreadboardInputForm
@@ -109,24 +52,21 @@ const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
 				});
 
 			case "error":
-				if (typeof result.data.error === "string") {
-					setUiElement(<div className="error">😩 ${result.data.error}</div>);
-				} else {
-					setUiElement(
-						<div className="error">
-							😩 Error
-							<JsonTreeWrapper json={result.data.error.error as JSONObject} />
-						</div>
-					);
-				}
+				setUiElement(<BreadboardError result={result} />)
 				return Promise.resolve(void 0);
 
 			case "output":
-				setUiElement(renderOutput(result.data.outputs));
+				setUiElement(<BreadboardOutput output={result.data.outputs} uiElement={uiElement} />);
 				return Promise.resolve(void 0);
 		}
-		setShowContinueButton(false);
+		//setShowContinueButton(false);
 	};
+
+	useEffect(() => {
+		if (boardUrl) {
+			runBoard(boardUrl, kits, handleStateChange);
+		}
+	}, []);
 
 	/* const continueButton = showContinueButton ? (
 		<button className="continue" onClick={() => console.log("submitted")}>
