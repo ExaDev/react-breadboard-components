@@ -12,6 +12,13 @@ const peerDependencies = packageJson.peerDependencies || {};
 
 // https://vitejs.dev/config/
 export default defineConfig((configEnv) => ({
+	optimizeDeps: {
+		esbuildOptions: {
+		  supported: {
+			"top-level-await": true
+		  },
+		},
+	  },
 	plugins: [
 		react(),
 		tsConfigPaths(),
@@ -24,6 +31,7 @@ export default defineConfig((configEnv) => ({
 		}),
 	],
 	build: {
+		target:"esnext",
 		lib: {
 			entry: resolve("src", "components/index.ts"),
 			name: "React Breadboard Components",
