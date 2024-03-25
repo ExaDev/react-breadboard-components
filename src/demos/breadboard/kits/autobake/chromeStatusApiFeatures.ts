@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { BrowserView, ChromeBrowser } from "./chromeStatusFeaturesV2.js";
+import {
+	BrowserInfo,
+	BrowserView,
+	ChromeBrowser,
+} from "./chromeStatusFeaturesV2.js";
 import fetchDirtyJson from "./fetchDirtyJson.js";
 
 type UserAction = {
@@ -65,22 +69,6 @@ type BrowserStatus = {
 	text: string;
 	val: number;
 	milestone_str: string;
-};
-
-export type BrowserInfo = ChromeBrowser & {
-	android?: string;
-	// blink_components: string[];
-	// bug: string;
-	desktop?: string;
-	// devrel: string[];
-	// flag: boolean;
-	// intervention: boolean;
-	ios?: string;
-	// origintrial: boolean;
-	// owners: string[];
-	// prefixed: boolean | null;
-	// status: BrowserStatus;
-	webview?: string;
 };
 
 type Browsers = {

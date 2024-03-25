@@ -391,7 +391,7 @@
 			"type": "complete",
 			"configuration": {
 				"model": "claude-2",
-				"url": "http://localhost:5173/anthropic/v1/complete"
+				"url": "https://api.anthropic.com/v1/complete"
 			}
 		},
 		{

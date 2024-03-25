@@ -5,7 +5,7 @@ function App() {
 	return (
 		<>
 			<div className="card">
-				<DevPulsePreviewRunner boardUrl="/graphs/auto-bake.json" />
+				<DevPulsePreviewRunner boardUrl="/graphs/dev-pulse.json" />
 			</div>
 		</>
 	);

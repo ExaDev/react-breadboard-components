@@ -1,4 +1,3 @@
-import { BrowserInfo } from "./chromeStatusApiFeatures.js";
 import fetchJson from "./fetchJson.js";
 
 export type ChromeStatusV2ApiFeature = {
@@ -40,6 +39,22 @@ export type ChromeBrowser = {
 	owners: string[];
 	prefixed: boolean;
 	status: Status;
+};
+
+export type BrowserInfo = ChromeBrowser & {
+	android?: string;
+	// blink_components: string[];
+	// bug: string;
+	desktop?: string;
+	// devrel: string[];
+	// flag: boolean;
+	// intervention: boolean;
+	ios?: string;
+	// origintrial: boolean;
+	// owners: string[];
+	// prefixed: boolean | null;
+	// status: BrowserStatus;
+	webview?: string;
 };
 
 export type BrowserView = {

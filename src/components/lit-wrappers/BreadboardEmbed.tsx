@@ -1,7 +1,7 @@
 import { createComponent } from "@lit/react";
 import React from "react";
-import { Embed } from "@google-labs/breadboard-web/embed.js";
 import background from "/images/pattern.png";
+//import { Embed } from "@google-labs/breadboard-web/embed.js";
 
 const BreadboardEmbed = (): React.JSX.Element => {
 	const LitReactEmbed = createComponent({

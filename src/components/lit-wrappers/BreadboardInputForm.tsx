@@ -33,7 +33,7 @@ const BreadboardInputForm = ({
 				//onError={handleError(onError)}
 				secret={secret}
 				remember={remember}
-				configuration={{ schema: schema }}
+				schema={schema}
 				onSubmit={onSubmit}
 			/>
 		</>

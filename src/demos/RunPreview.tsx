@@ -8,28 +8,31 @@ import BreadboardSecretInput from "src/components/react-components/BreadboardSec
 import useBreadboardKits from "./hooks/use-breadboard-kits";
 import { BreadboardInputForm } from "~/src/components";
 import runBoard from "./breadboard/board-runner";
-import CourseCrafterKit from "./breadboard/kits/CourseCrafterKit";
-import XenovaKit from "./breadboard/kits/XenovaKit";
 import { ClaudeKitBuilder } from "./breadboard/kits/ClaudeKitBuilder";
 import StringKit from "./breadboard/kits/StringKit";
-import ConfigKit from "./breadboard/kits/ConfigKit";
-import { FeatureKit } from "./breadboard/kits/autobake/featurekit";
+import HackerNewsAlgoliaKit from "./breadboard/kits/HackerNewsAlgoliaKit";
+import HackerNewsFirebaseKit from "./breadboard/kits/HackerNewsFirebaseKit";
+import JsonKit from "./breadboard/kits/JsonKit";
+import ListKit from "./breadboard/kits/ListKit";
 import Core from "@google-labs/core-kit";
+import ObjectKit from "./breadboard/kits/ObjectKit";
 
 type BbPreviewRunProps = {
 	boardUrl: string;
 };
 
-const courseCrafterKits = [
-	CourseCrafterKit,
-	XenovaKit,
-	ClaudeKitBuilder,
+const devPulseKits = [
+	HackerNewsAlgoliaKit,
+	HackerNewsFirebaseKit,
+	JsonKit,
+	ListKit,
+	ObjectKit,
 	StringKit,
+	Core,
+	ClaudeKitBuilder,
 ];
 
-const autobakeKits = [ClaudeKitBuilder, StringKit, ConfigKit, Core];
-
-const kitsArray = autobakeKits;
+const kitsArray = devPulseKits;
 
 const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
 	const kits = useBreadboardKits(kitsArray);
@@ -45,6 +48,7 @@ const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
 			}
 
 			case "input":
+				console.log(result.data.inputArguments.schema);
 				return new Promise((resolve) => {
 					setUiElement(
 						<BreadboardInputForm
