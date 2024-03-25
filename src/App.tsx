@@ -1,11 +1,11 @@
 import "./App.css";
-import BreadboardUIController from "./components/react-components/BreadboardUIController";
+import DevPulsePreviewRunner from "./demos/RunPreview";
 
 function App() {
 	return (
 		<>
 			<div className="card">
-				<BreadboardUIController />
+				<DevPulsePreviewRunner boardUrl="/graphs/auto-bake.json" />
 			</div>
 		</>
 	);

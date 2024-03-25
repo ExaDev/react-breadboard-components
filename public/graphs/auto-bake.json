@@ -1,0 +1,124 @@
+{
+	"title": "AutoBake",
+	"description": "AutoBake Board Example",
+	"url": ".",
+	"edges": [
+	  {
+		"from": "claudeAPI",
+		"to": "output-2",
+		"out": "completion",
+		"in": "output"
+	  },
+	  {
+		"from": "readEnvVar-4",
+		"to": "claudeAPI",
+		"out": "output",
+		"in": "output"
+	  },
+	  {
+		"from": "claudePromptConstructor",
+		"to": "claudeAPI",
+		"out": "output",
+		"in": "text"
+	  },
+	  {
+		"from": "getResourcesForFeature",
+		"to": "claudePromptConstructor",
+		"out": "output",
+		"in": "featureResources"
+	  },
+	  {
+		"from": "filterFeatureAttributes-3",
+		"to": "claudePromptConstructor",
+		"out": "output",
+		"in": "selectedFeature"
+	  },
+	  {
+		"from": "selectRandomFeature",
+		"to": "getResourcesForFeature",
+		"out": "output",
+		"in": "feature"
+	  },
+	  {
+		"from": "selectRandomFeature",
+		"to": "filterFeatureAttributes-3",
+		"out": "output",
+		"in": "feature"
+	  },
+	  {
+		"from": "ChromeStatusApiFeatures",
+		"to": "selectRandomFeature",
+		"out": "output",
+		"in": "features"
+	  }
+	],
+	"nodes": [
+	  {
+		"id": "output-2",
+		"type": "output",
+		"configuration": {
+		  "schema": {
+			"type": "object",
+			"properties": {
+			  "output": {
+				"type": "string",
+				"title": "output"
+			  }
+			}
+		  }
+		}
+	  },
+	  {
+		"id": "claudeAPI",
+		"type": "complete",
+		"configuration": {
+		  "model": "claude-2",
+		  "url": "https://api.anthropic.com/v1/complete"
+		}
+	  },
+	  {
+		"id": "readEnvVar-4",
+		"type": "input",
+		"configuration": {
+			"schema": {
+				"type": "object",
+				"properties": {
+					"template": {
+						"type": "string",
+						"title": "API Key",
+						"description": "Claude API key"
+					}
+				}
+			}
+		}
+	  },
+	  {
+		"id": "claudePromptConstructor",
+		"type": "template",
+		"configuration": {
+		  "template": "Create a markdown document that can be used to teach a junior developer about the feature discussed in the `feature` code block./nBase the script on the content of the `featureResources` code block./nThe first line of the document should be a heading with the name of the feature./n\n/nProvide your response formatted as raw markdown./nOnly respond with the result of this request./nDo not add any additional information to the script/n\n/n```featureResources/n{{featureResources}}/n```/n\n/n```selectedFeature/n{{selectedFeature}}/n```"
+		}
+	  },
+	  {
+		"id": "getResourcesForFeature",
+		"type": "getResourcesForFeature",
+		"configuration": {}
+	  },
+	  {
+		"id": "filterFeatureAttributes-3",
+		"type": "filterFeatureAttributes",
+		"configuration": {}
+	  },
+	  {
+		"id": "selectRandomFeature",
+		"type": "selectRandomFeature",
+		"configuration": {}
+	  },
+	  {
+		"id": "ChromeStatusApiFeatures",
+		"type": "chromeStatusApiFeatures",
+		"configuration": {}
+	  }
+	],
+	"graphs": {}
+  }

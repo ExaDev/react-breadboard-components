@@ -30,6 +30,12 @@
 		"paths": {
 			"react-breadboard-components": [
 				"src/component/index.ts"
+			],
+			"~/*": [
+				"./*"
+			],
+			"@/*": [
+				"./*"
 			]
 		},
 		"typeRoots": [

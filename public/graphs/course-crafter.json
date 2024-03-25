@@ -1,0 +1,194 @@
+{
+	"title": "CourseCrafter Single",
+	"description": "CourseCrafter for a single URL.",
+	"edges": [
+		{
+			"from": "claudeAPI",
+			"to": "output-2",
+			"out": "completion",
+			"in": "completion"
+		},
+		{
+			"from": "readEnvVar-3",
+			"to": "claudeAPI",
+			"out": "apiKey",
+			"in": "apiKey"
+		},
+		{
+			"from": "claudePromptConstructor",
+			"to": "claudeAPI",
+			"out": "string",
+			"in": "text"
+		},
+		{
+			"from": "promptDetails",
+			"to": "claudePromptConstructor",
+			"out": "template",
+			"in": "template"
+		},
+		{
+			"from": "getBlogContents",
+			"to": "summaryLanguageModel",
+			"out": "blogContent",
+			"in": "input"
+		},
+		{
+			"from": "getBlogContents",
+			"to": "claudePromptConstructor",
+			"out": "blogContent",
+			"in": "blogContent"
+		},
+		{
+			"from": "summaryLanguageModel",
+			"to": "claudePromptConstructor",
+			"out": "output",
+			"in": "summary"
+		},
+		{
+			"from": "blogDetails",
+			"to": "getBlogContents",
+			"out": "url",
+			"in": "url"
+		},
+		{
+			"from": "taskDetails",
+			"to": "summaryLanguageModel",
+			"out": "model",
+			"in": "model"
+		},
+		{
+			"from": "taskDetails",
+			"to": "summaryLanguageModel",
+			"out": "task",
+			"in": "task"
+		},
+		{
+			"from": "taskDetails",
+			"to": "getBlogContents",
+			"out": "model",
+			"in": "model"
+		},
+		{
+			"from": "taskDetails",
+			"to": "getBlogContents",
+			"out": "task",
+			"in": "task"
+		}
+	],
+	"nodes": [
+		{
+			"id": "output-2",
+			"type": "output",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"completion": {
+							"type": "string",
+							"title": "completion"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "claudeAPI",
+			"type": "generateCompletion",
+			"configuration": {
+				"model": "claude-2",
+				"url": "https://api.anthropic.com/v1/complete"
+			}
+		},
+		{
+			"id": "readEnvVar-3",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"template": {
+							"type": "string",
+							"title": "API Key",
+							"description": "Claude API key"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "claudePromptConstructor",
+			"type": "template",
+			"configuration": {}
+		},
+		{
+			"id": "promptDetails",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"template": {
+							"type": "string",
+							"title": "Text",
+							"description": "urls",
+							"default":  [
+								"Based on this summary and original text, give me code sample on how to achieve the discussed topic. Output result in markdown format, do not include the summary text in the output:",
+								"The key points are: Check if `scheduler.yield` is supported, Use `await scheduler.yield()` to yield control back to main thread, Have a fallback using `setTimeout` for browsers that don't support it the original text is the following:",
+								"The original text is the following: Building websites that respond quickly to user input has been one of the most challenging aspects of web performance—one that the Chrome Team has been working hard to help web developers meet. Just this year, it was announced that the Interaction to Next Paint (INP) metric would graduate from experimental to pending status. It is now poised to replace First Input Delay (FID) as a Core Web Vital in March of 2024."
+
+							]
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "getBlogContents",
+			"type": "getBlogContentForTask",
+			"configuration": {}
+		},
+		{
+			"id": "summaryLanguageModel",
+			"type": "pipeline",
+			"configuration": {}
+		},
+		{
+			"id": "blogDetails",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"title": "Text",
+							"description": "urls"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "taskDetails",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"model": {
+							"type": "string",
+							"title": "Text",
+							"description": "model"
+						},
+						"task": {
+							"type": "string",
+							"title": "Text",
+							"description": "task"
+						}
+					}
+				}
+			}
+		}
+	],
+	"graphs": {}
+}

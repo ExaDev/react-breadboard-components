@@ -1,7 +1,6 @@
 import { Types, Elements, Events } from "@google-labs/breadboard-ui";
 import { createComponent } from "@lit/react";
 import React from "react";
-import { handleError } from "src/lib/errors";
 import { BreadboardReactComponentProps } from "src/lib/types";
 
 type InputFormProps = Types.InputArgs &
@@ -13,7 +12,7 @@ type InputFormProps = Types.InputArgs &
 
 const BreadboardInputForm = ({
 	schema,
-	onError,
+	//onError,
 	secret,
 	remember,
 	onSubmit,
@@ -23,7 +22,7 @@ const BreadboardInputForm = ({
 		elementClass: Elements.Input,
 		react: React,
 		events: {
-			onError: Events.InputErrorEvent.eventName,
+			//onError: Events.InputErrorEvent.eventName,
 			onSubmit: Events.InputEnterEvent.eventName,
 		},
 	});
@@ -31,7 +30,7 @@ const BreadboardInputForm = ({
 	return (
 		<>
 			<LitReactInput
-				onError={handleError(onError)}
+				//onError={handleError(onError)}
 				secret={secret}
 				remember={remember}
 				configuration={{ schema: schema }}

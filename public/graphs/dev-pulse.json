@@ -1,0 +1,435 @@
+{
+	"title": "DevPulse",
+	"$schema": "https://raw.githubusercontent.com/breadboard-ai/breadboard/@google-labs/breadboard-schema@1.3.0/packages/schema/breadboard.schema.json",
+	"edges": [
+		{
+			"from": "searchParams",
+			"to": "passthrough-2",
+			"out": "*"
+		},
+		{
+			"from": "passthrough-2",
+			"to": "searchInProgress"
+		},
+		{
+			"from": "passthrough-2",
+			"to": "search-1",
+			"out": "query",
+			"in": "query"
+		},
+		{
+			"from": "passthrough-2",
+			"to": "search-1",
+			"out": "limit",
+			"in": "limit"
+		},
+		{
+			"from": "search-1",
+			"to": "algoliaSearchUrl",
+			"out": "algoliaUrl",
+			"in": "algoliaUrl"
+		},
+		{
+			"from": "passthrough-2",
+			"to": "passthrough-3",
+			"out": "claudeApiKey",
+			"in": "claudeApiKey"
+		},
+		{
+			"from": "search-1",
+			"to": "popSearchResult",
+			"out": "hits",
+			"in": "list"
+		},
+		{
+			"from": "popSearchResult",
+			"to": "popSearchResult",
+			"out": "list",
+			"in": "list"
+		},
+		{
+			"from": "popSearchResult",
+			"to": "searchResult",
+			"out": "item",
+			"in": "object"
+		},
+		{
+			"from": "searchResult",
+			"to": "searchResultData",
+			"out": "story_id",
+			"in": "story_id"
+		},
+		{
+			"from": "searchResult",
+			"to": "searchResultData",
+			"out": "title",
+			"in": "title"
+		},
+		{
+			"from": "searchResult",
+			"to": "searchResultData",
+			"out": "url",
+			"in": "url"
+		},
+		{
+			"from": "searchResult",
+			"to": "searchResultData",
+			"out": "author",
+			"in": "author"
+		},
+		{
+			"from": "searchResult",
+			"to": "searchResultData",
+			"out": "created_at",
+			"in": "created_at"
+		},
+		{
+			"from": "searchResult",
+			"to": "searchResultData",
+			"out": "created_at_i",
+			"in": "created_at_i"
+		},
+		{
+			"from": "searchResult",
+			"to": "searchResultData",
+			"out": "points",
+			"in": "points"
+		},
+		{
+			"from": "template-4",
+			"to": "searchResultData",
+			"out": "string",
+			"in": "hnURL"
+		},
+		{
+			"from": "searchResult",
+			"to": "template-4",
+			"out": "story_id",
+			"in": "story_id"
+		},
+		{
+			"from": "popStoryId",
+			"to": "popStoryId",
+			"out": "list",
+			"in": "list"
+		},
+		{
+			"from": "popStoryId",
+			"to": "passthrough-5",
+			"out": "item",
+			"in": "id"
+		},
+		{
+			"from": "searchResult",
+			"to": "passthrough-5",
+			"out": "story_id",
+			"in": "id"
+		},
+		{
+			"from": "passthrough-5",
+			"to": "getStory-6",
+			"out": "id",
+			"in": "id"
+		},
+		{
+			"from": "getStory-6",
+			"to": "passthrough-7",
+			"out": "*"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "algoliaUrl",
+			"in": "algoliaUrl"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "author",
+			"in": "author"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "created_at",
+			"in": "created_at"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "created_at_i",
+			"in": "created_at_i"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "points",
+			"in": "points"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "story_id",
+			"in": "story_id"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "title",
+			"in": "title"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "type",
+			"in": "type"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "story",
+			"out": "url",
+			"in": "url"
+		},
+		{
+			"from": "search-1",
+			"to": "story",
+			"out": "algoliaUrl",
+			"in": "algoliaUrl"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "nest-9",
+			"out": "*"
+		},
+		{
+			"from": "nest-9",
+			"to": "limitDepth-10",
+			"out": "story",
+			"in": "object"
+		},
+		{
+			"from": "limitDepth-10",
+			"to": "stringify-8",
+			"out": "object",
+			"in": "object"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "templateText",
+			"out": "story_id",
+			"in": "story_id"
+		},
+		{
+			"from": "stringify-8",
+			"to": "instructionTemplate",
+			"out": "string",
+			"in": "story"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "pendingOutput",
+			"out": "story_id",
+			"in": "story_id"
+		},
+		{
+			"from": "passthrough-3",
+			"to": "claudePostSummarisation",
+			"out": "claudeApiKey",
+			"in": "apiKey"
+		},
+		{
+			"from": "instructionTemplate",
+			"to": "claudePostSummarisation",
+			"out": "string",
+			"in": "userQuestion"
+		},
+		{
+			"from": "passthrough-7",
+			"to": "summary",
+			"out": "story_id",
+			"in": "story_id"
+		},
+		{
+			"from": "claudePostSummarisation",
+			"to": "summary",
+			"out": "completion",
+			"in": "summary"
+		}
+	],
+	"nodes": [
+		{
+			"id": "search-1",
+			"type": "search",
+			"configuration": {
+				"tags": [
+					"story"
+				],
+				"limit": 10
+			}
+		},
+		{
+			"id": "searchInProgress",
+			"type": "output"
+		},
+		{
+			"id": "searchParams",
+			"type": "input",
+			"configuration": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"query": {
+							"title": "Please enter a search query",
+							"type": "string"
+						},
+						"limit": {
+							"title": "Please enter the number of results to return",
+							"type": "number",
+							"default": "10"
+						},
+						"claudeApiKey": {
+							"title": "Please enter your API Key",
+							"type": "password"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "passthrough-2",
+			"type": "passthrough"
+		},
+		{
+			"id": "algoliaSearchUrl",
+			"type": "output"
+		},
+		{
+			"id": "passthrough-3",
+			"type": "passthrough"
+		},
+		{
+			"id": "popSearchResult",
+			"type": "pop"
+		},
+		{
+			"id": "searchResult",
+			"type": "spread"
+		},
+		{
+			"id": "searchResultData",
+			"type": "output"
+		},
+		{
+			"id": "template-4",
+			"type": "template",
+			"configuration": {
+				"template": "https://news.ycombinator.com/item?id={{story_id}}"
+			}
+		},
+		{
+			"id": "popStoryId",
+			"type": "pop"
+		},
+		{
+			"id": "passthrough-5",
+			"type": "passthrough"
+		},
+		{
+			"id": "getStory-6",
+			"type": "getStory"
+		},
+		{
+			"id": "passthrough-7",
+			"type": "passthrough"
+		},
+		{
+			"id": "story",
+			"type": "output"
+		},
+		{
+			"id": "stringify-8",
+			"type": "stringify"
+		},
+		{
+			"id": "nest-9",
+			"type": "nest",
+			"configuration": {
+				"key": "story"
+			}
+		},
+		{
+			"id": "limitDepth-10",
+			"type": "limitDepth",
+			"configuration": {
+				"depth": 3
+			}
+		},
+		{
+			"id": "templateText",
+			"type": "output",
+			"configuration": {
+				"instruction": "Summarise the discussion regarding this post",
+				"templateText": "Summarise the discussion regarding this post\n```json\n{{story}}\n```"
+			}
+		},
+		{
+			"id": "instructionTemplate",
+			"type": "template",
+			"configuration": {
+				"template": "Summarise the discussion regarding this post\n```json\n{{story}}\n```"
+			}
+		},
+		{
+			"id": "pendingOutput",
+			"type": "output",
+			"configuration": {
+				"summary": "pending"
+			}
+		},
+		{
+			"id": "claudePostSummarisation",
+			"type": "complete",
+			"configuration": {
+				"model": "claude-2",
+				"url": "http://localhost:5173/anthropic/v1/complete"
+			}
+		},
+		{
+			"id": "summary",
+			"type": "output"
+		}
+	],
+	"kits": [
+		{
+			"url": "npm:@exadev/breadboard-kits/HackerNewsFirebaseKit"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits/HackerNewsAlgoliaKit"
+		},
+		{
+			"title": "Core Kit",
+			"url": "npm:@google-labs/core-kit"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits/list"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits/kits/ObjectKit"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits/kits/StringKit"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits/HackerNewsAlgoliaKit"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits/kits/JsonKit"
+		},
+		{
+			"url": "npm:@exadev/breadboard-kits/kits/ObjectKit"
+		}
+	]
+}
