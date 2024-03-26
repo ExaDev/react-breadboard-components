@@ -1,7 +1,6 @@
 import { HarnessRunResult } from "@google-labs/breadboard/harness";
 import JsonTreeWrapper from "src/components/lit-wrappers/BreadboardJsonTree";
 import { JSONObject } from "src/lib/types";
-import "./BreadboardStyles.css";
 
 type BreadboardErrorProps = {
 	result: HarnessRunResult;
