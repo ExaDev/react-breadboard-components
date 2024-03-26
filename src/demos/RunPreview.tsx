@@ -16,6 +16,7 @@ import JsonKit from "./breadboard/kits/JsonKit";
 import ListKit from "./breadboard/kits/ListKit";
 import Core from "@google-labs/core-kit";
 import ObjectKit from "./breadboard/kits/ObjectKit";
+import "./RunPreview.css";
 
 type BbPreviewRunProps = {
 	boardUrl: string;
@@ -83,11 +84,13 @@ const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
 	}, []);
 
 	return (
-		<>
-			<h1>Test</h1>
-			<section>{uiElement}</section>
+		<main>
+			<section className="samplesRunnerContainer">
+				<h4>ExaDev Samples</h4>
+				<section>{uiElement}</section>
+			</section>
 			<footer>Made with Breadboard</footer>
-		</>
+		</main>
 	);
 };
 

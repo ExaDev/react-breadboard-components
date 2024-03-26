@@ -2,6 +2,7 @@ import claude from "@anthropic-ai/tokenizer/claude.json";
 import { InputValues, OutputValues } from "@google-labs/breadboard";
 import { KitBuilder } from "@google-labs/breadboard/kits";
 import { Tiktoken, TiktokenBPE } from "js-tiktoken";
+import { core } from "@google-labs/core-kit";
 
 export function countTokens(text: string): number {
 	const tokenizer = getTokenizer();

@@ -4,20 +4,17 @@ import {
 	InputValues,
 	NodeValue,
 	OutputValues,
-	addKit,
-	asRuntimeKit,
 	code,
 } from "@google-labs/breadboard";
 import { KitBuilder } from "@google-labs/breadboard/kits";
 import { Tiktoken, TiktokenBPE } from "js-tiktoken";
-import * as puppeteer from "puppeteer";
-import { Browser, JSHandle, Page } from "puppeteer";
+import puppeteer from "puppeteer-core";
 import * as readline from "readline/promises";
 import { chromeVersions } from "./chromeVersions.js";
-import chromeStatusApiFeatures, {
+import chromeStatusApiFeatures from "./chromeStatusApiFeatures.js";
+import type {
 	ChromeStatusFeatures,
 	ChromeStatusV1ApiFeature,
-	getChromeStatusV1Feature,
 } from "./chromeStatusApiFeatures.js";
 import chromeStatusFeaturesV2 from "./chromeStatusFeaturesV2.js";
 import fs from "fs";
@@ -57,21 +54,19 @@ export function countTokens(text: string): number {
 }
 
 export async function extractContents(url: string): Promise<pageContents> {
-	const browser: Browser = await puppeteer.launch({
+	const browser = await puppeteer.launch({
 		headless: true,
 		args: ["--no-sandbox"],
 		ignoreDefaultArgs: ["--disable-extensions"],
 	});
-	const page: Page = await browser.newPage();
+	const page = await browser.newPage();
 
 	console.log("Extracting Feature Resources: ", url);
 
 	await page.goto(url, { waitUntil: "load" });
 	// sleep because some page elements might not immediately render
 	await sleep(5000);
-	const element: JSHandle = await page.evaluateHandle(
-		`document.querySelector("body")`
-	);
+	const element = await page.evaluateHandle(`document.querySelector("body")`);
 
 	let contents = await page.evaluate((el: any) => el.textContent, element);
 	contents = contents.replace(/[\n\r]/g, "");
@@ -305,7 +300,7 @@ async function getResourcesForFeature({
 }
 
 export const FeatureKit = new KitBuilder({
-	url: ".",
+	url: "npm@exadev/breadboard-kits/featureKit",
 }).build({
 	versions: async () => ({
 		output: await chromeVersions(),

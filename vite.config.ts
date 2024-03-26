@@ -14,11 +14,11 @@ const peerDependencies = packageJson.peerDependencies || {};
 export default defineConfig((configEnv) => ({
 	optimizeDeps: {
 		esbuildOptions: {
-		  supported: {
-			"top-level-await": true
-		  },
+			supported: {
+				"top-level-await": true,
+			},
 		},
-	  },
+	},
 	plugins: [
 		react(),
 		tsConfigPaths(),
@@ -31,7 +31,7 @@ export default defineConfig((configEnv) => ({
 		}),
 	],
 	build: {
-		target:"esnext",
+		target: "esnext",
 		lib: {
 			entry: resolve("src", "components/index.ts"),
 			name: "React Breadboard Components",
@@ -40,6 +40,16 @@ export default defineConfig((configEnv) => ({
 		},
 		rollupOptions: {
 			external: [...Object.keys(peerDependencies)],
+		},
+	},
+	server: {
+		port: 5173,
+		strictPort: true,
+		proxy: {
+			"/v1/complete": {
+				target: "https://api.anthropic.com",
+				changeOrigin: true,
+			},
 		},
 	},
 }));

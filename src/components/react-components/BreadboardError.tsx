@@ -1,6 +1,7 @@
 import { HarnessRunResult } from "@google-labs/breadboard/harness";
 import JsonTreeWrapper from "src/components/lit-wrappers/BreadboardJsonTree";
 import { JSONObject } from "src/lib/types";
+import "./BreadboardStyles.css";
 
 type BreadboardErrorProps = {
 	result: HarnessRunResult;
@@ -12,7 +13,7 @@ const BreadboardError = ({
 	const buildErrorElement = (): React.ReactNode => {
 		if (result.type === "error") {
 			if (typeof result.data.error === "string") {
-				return <div className="error">😩 ${result.data.error}</div>;
+				return <div className="error">😩{result.data.error}</div>;
 			} else {
 				return (
 					<div className="error">

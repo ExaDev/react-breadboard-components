@@ -5,12 +5,12 @@
 	"edges": [
 	  {
 		"from": "claudeAPI",
-		"to": "output-2",
+		"to": "output",
 		"out": "completion",
-		"in": "output"
+		"in": "completion"
 	  },
 	  {
-		"from": "readEnvVar-4",
+		"from": "secrets-4",
 		"to": "claudeAPI",
 		"out": "output",
 		"in": "output"
@@ -54,15 +54,15 @@
 	],
 	"nodes": [
 	  {
-		"id": "output-2",
+		"id": "output",
 		"type": "output",
 		"configuration": {
 		  "schema": {
 			"type": "object",
 			"properties": {
-			  "output": {
+			  "completion": {
 				"type": "string",
-				"title": "output"
+				"title": "completion"
 			  }
 			}
 		  }
@@ -77,7 +77,7 @@
 		}
 	  },
 	  {
-		"id": "readEnvVar-4",
+		"id": "secrets-4",
 		"type": "input",
 		"configuration": {
 			"schema": {
