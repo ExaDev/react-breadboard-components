@@ -46,9 +46,21 @@ export default defineConfig((configEnv) => ({
 		port: 5173,
 		strictPort: true,
 		proxy: {
-			"/v1/complete": {
+			"/anthropic": {
 				target: "https://api.anthropic.com",
 				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/anthropic/, ""),
+			},
+			"/claude": {
+				target: "https://api.anthropic.com",
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/claude/, "/v1/complete"),
+			},
+			"/chrome": {
+				target:
+					"https://developer.chrome.com/blog/introducing-scheduler-yield-origin-trial",
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/chrome/, ""),
 			},
 		},
 	},

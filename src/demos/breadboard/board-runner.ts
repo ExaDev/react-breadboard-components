@@ -13,7 +13,6 @@ const runBoard = async (
 
 	for await (const result of run(config)) {
 		const answer = await handleStateChange(result);
-		//showContinueButton must somehow be set to false here
 
 		if (answer) {
 			await result.reply({ inputs: answer });

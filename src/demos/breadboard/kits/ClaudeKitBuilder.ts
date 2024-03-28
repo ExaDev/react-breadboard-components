@@ -2,7 +2,6 @@ import claude from "@anthropic-ai/tokenizer/claude.json";
 import { InputValues, OutputValues } from "@google-labs/breadboard";
 import { KitBuilder } from "@google-labs/breadboard/kits";
 import { Tiktoken, TiktokenBPE } from "js-tiktoken";
-import { core } from "@google-labs/core-kit";
 
 export function countTokens(text: string): number {
 	const tokenizer = getTokenizer();
@@ -54,7 +53,7 @@ export async function postClaudeCompletion({
 }: ClaudeParams): Promise<ClaudeResponse> {
 	if (!apiKey) throw new Error("Missing apiKey");
 	if (!userQuestion) throw new Error("Missing userQuestion");
-	model = model || "claude-2";
+	model = model || "claude-2.1";
 	// Endpoint URL
 	// const url = "https://api.anthropic.com/v1/complete";
 	url = url || "https://api.anthropic.com/v1/complete";

@@ -96,7 +96,7 @@
 			"type": "generateCompletion",
 			"configuration": {
 				"model": "claude-2",
-				"url": "https://api.anthropic.com/v1/complete"
+				"url": "http://localhost:5173/anthropic/v1/complete"
 			}
 		},
 		{
@@ -162,7 +162,8 @@
 						"url": {
 							"type": "string",
 							"title": "Text",
-							"description": "urls"
+							"description": "url",
+							"default": "https://developer.chrome.com/blog/introducing-scheduler-yield-origin-trial/"
 						}
 					}
 				}

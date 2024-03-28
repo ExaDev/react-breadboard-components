@@ -391,12 +391,24 @@
 			"type": "complete",
 			"configuration": {
 				"model": "claude-2",
-				"url": "https://api.anthropic.com/v1/complete"
+				"url": "http://localhost:5173/anthropic/v1/complete"
 			}
 		},
 		{
 			"id": "summary",
-			"type": "output"
+			"type": "output",
+			"configuration": {
+				"schema": {
+				  "type": "object",
+				  "properties": {
+					"summary": {
+					  "type": "object",
+					  "title": "Claude summary",
+					  "description": "The response from the claude completion api"
+					}
+				  }
+				}
+			  }
 		}
 	],
 	"kits": [

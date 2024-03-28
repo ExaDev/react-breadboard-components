@@ -24,9 +24,9 @@ const BreadboardOutput = ({
 				return (
 					<>
 						<section className="output-item">
-							<h1 title={schema.title || "Undescribed property"}>
+							<h4 title={schema.title || "Undescribed property"}>
 								{schema.title || "Untitled property"}
-							</h1>
+							</h4>
 							<div>{value || "No value"}</div>
 						</section>
 						<section>{uiElement}</section>

@@ -21,11 +21,7 @@ import * as cheerio from "cheerio";
 async function getBlogContent(url: string): Promise<blog> {
 	const axiosInstance = axios.create();
 
-	const response = await axiosInstance.get(url, {
-		headers: {
-			"Accept-Encoding": "application/json",
-		},
-	});
+	const response = await axiosInstance.get(url);
 	const selector = cheerio.load(response.data);
 	console.log(`Extracting Content from: ${url}`);
 	const title: NodeValue = selector(".devsite-page-title").text();
