@@ -5,38 +5,19 @@ import { Events } from "@google-labs/breadboard-ui";
 import BreadboardOutput from "src/components/react-components/BreadboardOutput";
 import BreadboardError from "src/components/react-components/BreadboardError";
 import BreadboardSecretInput from "src/components/react-components/BreadboardSecretInput";
-import useBreadboardKits from "./hooks/use-breadboard-kits";
 import { BreadboardInputForm } from "~/src/components";
 import runBoard from "./breadboard/board-runner";
-import { ClaudeKitBuilder } from "./breadboard/kits/ClaudeKitBuilder";
-import StringKit from "./breadboard/kits/StringKit";
-import HackerNewsAlgoliaKit from "./breadboard/kits/HackerNewsAlgoliaKit";
-import HackerNewsFirebaseKit from "./breadboard/kits/HackerNewsFirebaseKit";
-import JsonKit from "./breadboard/kits/JsonKit";
-import ListKit from "./breadboard/kits/ListKit";
-import Core from "@google-labs/core-kit";
-import ObjectKit from "./breadboard/kits/ObjectKit";
 import "./RunPreview.css";
+import useDevPulseKits from "./hooks/use-dev-pulse-kits";
 
 type BbPreviewRunProps = {
-	boardUrl: string;
+	boardUrl?: string;
 };
 
-const devPulseKits = [
-	HackerNewsAlgoliaKit,
-	HackerNewsFirebaseKit,
-	JsonKit,
-	ListKit,
-	ObjectKit,
-	StringKit,
-	Core,
-	ClaudeKitBuilder,
-];
-
-const kitsArray = devPulseKits;
-
-const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
-	const kits = useBreadboardKits(kitsArray);
+const BbPreviewRun = ({
+	boardUrl = "/graphs/dev-pulse.json",
+}: BbPreviewRunProps): React.JSX.Element => {
+	const kits = useDevPulseKits();
 	const [uiElement, setUiElement] = useState<React.ReactNode>();
 
 	const handleStateChange = async (
@@ -49,7 +30,6 @@ const BbPreviewRun = ({ boardUrl }: BbPreviewRunProps): React.JSX.Element => {
 			}
 
 			case "input":
-				console.log(result.data.inputArguments.schema);
 				return new Promise((resolve) => {
 					setUiElement(
 						<BreadboardInputForm
