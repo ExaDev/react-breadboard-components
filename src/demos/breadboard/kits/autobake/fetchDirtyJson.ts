@@ -1,16 +1,9 @@
-import readCache, { writeCache } from "./crossEnvCache.js";
-
 export async function fetchDirtyJson(
 	url: string,
 	excessString: string
 ): Promise<unknown> {
-	let jsonData = readCache(url);
-
-	if (jsonData) {
-		return jsonData;
-	}
-
 	const response = await fetch(url);
+
 	if (!response.ok) {
 		throw new Error(`HTTP error! status: ${response.status}`);
 	}
@@ -20,8 +13,7 @@ export async function fetchDirtyJson(
 		data = data.substring(excessString.length);
 	}
 
-	jsonData = JSON.parse(data);
-	writeCache(url, jsonData);
+	const jsonData = JSON.parse(data);
 
 	return jsonData;
 }

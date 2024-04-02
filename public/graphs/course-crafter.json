@@ -163,7 +163,7 @@
 							"type": "string",
 							"title": "Text",
 							"description": "url",
-							"default": "https://developer.chrome.com/blog/introducing-scheduler-yield-origin-trial/"
+							"default": "http://localhost:5173/blog/introducing-scheduler-yield-origin-trial/"
 						}
 					}
 				}
@@ -179,12 +179,14 @@
 						"model": {
 							"type": "string",
 							"title": "Text",
-							"description": "model"
+							"description": "model",
+							"default": "Xenova/distilbart-cnn-6-6"
 						},
 						"task": {
 							"type": "string",
 							"title": "Text",
-							"description": "task"
+							"description": "task",
+							"default": "summarization"
 						}
 					}
 				}

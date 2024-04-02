@@ -1,15 +1,10 @@
-import {readCache, writeCache} from "./crossEnvCache.js";
-
 export async function fetchJson(url: string): Promise<unknown> {
-	let jsonData = readCache(url);
-
 	const response = await fetch(url);
 	if (!response.ok) {
 		throw new Error(`HTTP error! status: ${response.status}`);
 	}
 
-	jsonData = await response.json();
-	writeCache(url, jsonData);
+	const jsonData = await response.json();
 
 	return jsonData;
 }

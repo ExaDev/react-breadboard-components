@@ -8,7 +8,6 @@ import {
 } from "@google-labs/breadboard";
 import { KitBuilder } from "@google-labs/breadboard/kits";
 import { Tiktoken, TiktokenBPE } from "js-tiktoken";
-import puppeteer from "puppeteer-core";
 import * as readline from "readline/promises";
 import { chromeVersions } from "./chromeVersions.js";
 import chromeStatusApiFeatures from "./chromeStatusApiFeatures.js";
@@ -18,6 +17,8 @@ import type {
 } from "./chromeStatusApiFeatures.js";
 import chromeStatusFeaturesV2 from "./chromeStatusFeaturesV2.js";
 import fs from "fs";
+import axios from "axios";
+import * as cheerio from "cheerio";
 
 export function getTokenizer(): Tiktoken {
 	const tiktokenBPE: TiktokenBPE = {
@@ -54,54 +55,53 @@ export function countTokens(text: string): number {
 }
 
 export async function extractContents(url: string): Promise<pageContents> {
-	const browser = await puppeteer.launch({
-		headless: true,
-		args: ["--no-sandbox"],
-		ignoreDefaultArgs: ["--disable-extensions"],
-	});
-	const page = await browser.newPage();
+	const axiosInstance = axios.create();
+
+	const response = await axiosInstance.get(url);
+	const selector = cheerio.load(response.data);
 
 	console.log("Extracting Feature Resources: ", url);
 
-	await page.goto(url, { waitUntil: "load" });
 	// sleep because some page elements might not immediately render
 	await sleep(5000);
-	const element = await page.evaluateHandle(`document.querySelector("body")`);
+	/* const element = await page.evaluateHandle(`document.querySelector("body")`);
 
 	let contents = await page.evaluate((el: any) => el.textContent, element);
 	contents = contents.replace(/[\n\r]/g, "");
 
-	await browser.close();
+	await browser.close(); */
 
-	return Promise.resolve({ contents });
+	const contents: NodeValue = selector(".devsite-article-body").text();
+	// if this stops returning content, inspect css, the class names might have changed
+
+	return { contents };
 }
 
 async function extractFeatureResource(id: string): Promise<pageContents> {
-	const browser = await puppeteer.launch({
-		headless: true,
-		args: ["--no-sandbox"],
-		ignoreDefaultArgs: ["--disable-extensions"],
-	});
-	const page = await browser.newPage();
-
 	const baseURL = "https://chromestatus.com/feature/";
 	const featureURL = `${baseURL}${id}`;
 	console.log("Extracting Feature Content: ", featureURL);
 
-	await page.goto(featureURL, { waitUntil: "load" });
+	const axiosInstance = axios.create();
+
+	const response = await axiosInstance.get(featureURL);
+	const selector = cheerio.load(response.data);
+	console.log(response.data);
 	// sleep to wait for page to render
-	await sleep(5000);
-	const element = await page.evaluateHandle(
+	await sleep(5000); //this can stay
+	/* const element = await page.evaluateHandle(
 		`document.querySelector("body > chromedash-app").shadowRoot.querySelector("#content-component-wrapper > chromedash-feature-page").shadowRoot.querySelector("sl-details")`
-	);
+	); //look into whether there may be an equivalent to this for microlink; investigate the "evaluateHandle" of puppeteer
 
 	let contents = await page.evaluate((el: any) => el.textContent, element);
 
+	contents = contents.replace(/[\n\r]/g, ""); */
+	//cleaning up contents can stay
+
+	let contents: NodeValue = selector(".devsite-article-body").text();
 	contents = contents.replace(/[\n\r]/g, "");
 
-	await browser.close();
-
-	return Promise.resolve({ contents });
+	return { contents }; //return the data const defined above (in the spread operator)
 }
 
 function filterAttributes(obj: any) {
