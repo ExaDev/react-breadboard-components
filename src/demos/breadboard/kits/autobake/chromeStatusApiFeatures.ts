@@ -187,7 +187,7 @@ export type ChromeStatusFeatures = {
 
 export async function chromeStatusApiFeatures(): Promise<ChromeStatusFeatures> {
 	return (await fetchDirtyJson(
-		"http://localhost:5173/api/v0/features",
+		"http://localhost:5173/?url=https://chromestatus.com/api/v0/features",
 		")]}'\n"
 	)) as Promise<ChromeStatusFeatures>;
 }

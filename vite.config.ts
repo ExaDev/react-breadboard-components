@@ -63,7 +63,7 @@ export default defineConfig((configEnv) => ({
 				rewrite: (path) =>
 					path.replace(
 						/^\/developer/,
-						"/blog/introducing-scheduler-yield-origin-trial/"
+						"/blog/introducing-scheduler-yield-origin-trial"
 					),
 			},
 			"/chrome": {
@@ -76,6 +76,15 @@ export default defineConfig((configEnv) => ({
 					});
 				},
 			},
+			/* "/microlink": {
+				target: "https://api.microlink.io",
+				changeOrigin: true,
+				rewrite: (path) =>
+					path.replace(
+						/^\/microlink/,
+						"/?url=https://chromestatus.com/api/v0/features"
+					),
+			}, */
 		},
 	},
 }));

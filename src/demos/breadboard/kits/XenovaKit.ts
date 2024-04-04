@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment */
 import { InputValues, NodeValue, OutputValues } from "@google-labs/breadboard";
 import { KitBuilder } from "@google-labs/breadboard/kits";
-import { pipeline } from "@xenova/transformers";
+import { pipeline, env } from "@xenova/transformers";
 import {
 	DEFAULT_MODEL,
 	DEFAULT_TASK,
@@ -17,6 +17,9 @@ import {
 	pipelineBulkOutput,
 	summaryOutput,
 } from "../types/xenova.js";
+
+env.allowLocalModels = false;
+env.useBrowserCache = false;
 
 /**
  * Pipeline which feeds data to LLM to carry out a certain task such as summarization
@@ -103,6 +106,7 @@ export const XenovaKit = new KitBuilder({
 			task?: TransformerTask;
 		}
 	): Promise<OutputValues | void> {
+		console.log(inputs);
 		inputs.model = inputs.model ?? DEFAULT_MODEL;
 		inputs.task = inputs.task ?? DEFAULT_TASK;
 		if (!inputs.input) {

@@ -27,8 +27,8 @@ async function getBlogContent(url: string): Promise<blog> {
 	const title: NodeValue = selector(".devsite-page-title").text();
 	// if this stops returning content, inspect css, the class names might have changed
 	const blog: NodeValue = selector(".devsite-article-body").text();
-
-	return Promise.resolve({ url, title, blog });
+	console.log(blog);
+	return Promise.resolve({ url, title, blog } as blog);
 }
 
 // WIP testing to generalize web scraping that doesn't return on certain tags to extract data
