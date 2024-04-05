@@ -1,7 +1,7 @@
 import { HarnessRunResult } from "@google-labs/breadboard/harness";
-import BreadboardInputForm from "src/components/lit-wrappers/BreadboardInputForm";
+import BreadboardInputForm from "~/src/demos/breadboard/breadboard-element-renderer/elements/BreadboardInputForm";
 
-type BreadboardSecretInputProps = {
+export type BreadboardSecretInputProps = {
 	result: HarnessRunResult;
 };
 

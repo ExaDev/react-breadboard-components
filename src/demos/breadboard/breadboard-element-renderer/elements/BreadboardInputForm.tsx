@@ -3,7 +3,7 @@ import { createComponent } from "@lit/react";
 import React from "react";
 import { BreadboardReactComponentProps } from "src/lib/types";
 
-type InputFormProps = Types.InputArgs &
+export type InputFormProps = Types.InputArgs &
 	BreadboardReactComponentProps & {
 		secret?: boolean;
 		remember?: boolean;

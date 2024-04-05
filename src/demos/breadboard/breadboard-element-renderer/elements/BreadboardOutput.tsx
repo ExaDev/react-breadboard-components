@@ -2,7 +2,7 @@ import { Schema } from "@google-labs/breadboard";
 import JsonTreeWrapper from "src/components/lit-wrappers/BreadboardJsonTree";
 import { JSONObject } from "src/lib/types";
 
-type BreadboardOutputProps = {
+export type BreadboardOutputProps = {
 	output: Record<string, unknown>;
 	uiElement: React.ReactNode;
 };

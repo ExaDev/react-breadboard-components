@@ -71,7 +71,7 @@ export async function extractContents(url: string): Promise<pageContents> {
 
 	await browser.close(); */
 
-	const contents: NodeValue = selector(".devsite-article-body").text();
+	const contents: NodeValue = selector(".sl-details").text();
 	// if this stops returning content, inspect css, the class names might have changed
 
 	return { contents };
@@ -88,17 +88,17 @@ async function extractFeatureResource(id: string): Promise<pageContents> {
 	const selector = cheerio.load(response.data);
 	console.log(response.data);
 	// sleep to wait for page to render
-	await sleep(5000); //this can stay
+	await sleep(5000);
 	/* const element = await page.evaluateHandle(
 		`document.querySelector("body > chromedash-app").shadowRoot.querySelector("#content-component-wrapper > chromedash-feature-page").shadowRoot.querySelector("sl-details")`
-	); //look into whether there may be an equivalent to this for microlink; investigate the "evaluateHandle" of puppeteer
+	);
 
 	let contents = await page.evaluate((el: any) => el.textContent, element);
 
-	contents = contents.replace(/[\n\r]/g, ""); */
-	//cleaning up contents can stay
+	 */
 
-	let contents: NodeValue = selector(".devsite-article-body").text();
+	let contents: NodeValue = selector(".sl-details").text(); //need to access shadow root and this can't be done with cheerio.
+	//Puppeteer is needed in this case, but puppeteer doesn't work with React.
 	contents = contents.replace(/[\n\r]/g, "");
 
 	return { contents }; //return the data const defined above (in the spread operator)

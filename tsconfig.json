@@ -26,6 +26,7 @@
 		/* Linting */
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
+		"strictPropertyInitialization": false,
 
 		"paths": {
 			"react-breadboard-components": [
